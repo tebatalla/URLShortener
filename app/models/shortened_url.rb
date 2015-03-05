@@ -48,4 +48,13 @@ class ShortenedUrl < ActiveRecord::Base
     -> { distinct },
     through: :visits,
     source: :visitor
+
+  has_many :taggings,
+           foreign_key: :surl_id,
+           primary_key: :id,
+           class_name: :Tagging
+           
+  has_many :tags,
+    through: :taggings,
+    source: :tag_topic
 end

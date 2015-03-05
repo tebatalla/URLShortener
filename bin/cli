@@ -8,7 +8,12 @@ input = gets.chomp.to_i
 if input == 0
   puts "Type in your long url"
   long_url = gets.chomp
+  puts "Choose a tag topic from the following list:"
+  puts "#{TagTopic::TOPICS.join(', ')}"
+  tag = gets.chomp
+  tag_topic = TagTopic.find_by(topic: tag) || TagTopic.create!(topic: tag)
   surl = ShortenedUrl.create_for_user_and_long_url!(user, long_url)
+  Tagging.create!(tag_topic: tag_topic, url: surl)
   puts "Short url is: #{surl.short_url}"
 elsif input == 1
   puts "Type in the shortened url"
