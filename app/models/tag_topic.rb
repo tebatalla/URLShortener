@@ -29,4 +29,10 @@ class TagTopic < ActiveRecord::Base
                  message: "Topic is not in the approved list of topics"
                }
 
+  def most_popular_links(n)
+    ShortenedUrl.joins(:visits).joins(:taggings).
+      where("taggings.tag_topic_id = ?", self.id).group("visits.surl_id").
+        order("COUNT(visits.surl_id) DESC").limit(n)
+  end
+
 end
